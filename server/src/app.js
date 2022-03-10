@@ -4,8 +4,11 @@ import cors from "cors";
 import express from "express";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
+import swaggerUi from "swagger-ui-express";
 import env from "./config";
 import { handleError, processRequest } from "./middlewares";
+import routes from "./routes";
+import swaggerDocument from "./swagger.json";
 
 const pino = require("pino-http")();
 
@@ -14,7 +17,7 @@ const app = express();
 
 // ? cors configuration
 let corsOptions = {
-  origin: env.CLIENT_APP_URL,
+  origin: env.APP_URL,
   credentials: true,
   optionsSuccessStatus: 200, // * some legacy browsers (IE11, various SmartTVs) choke on 204
 };
@@ -39,9 +42,11 @@ app
 // TODO: Correlation Id
 app.use(processRequest);
 
-app.get("/", (req, res) => {
-  res.send("rs shonjoy");
-});
+// TODO: Routes Configuration
+routes(app);
+
+// TODO: Swagger Configuration
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // TODO: Error Handler
 app.use(handleError);
