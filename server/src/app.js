@@ -4,11 +4,9 @@ import cors from "cors";
 import express from "express";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
-import swaggerUi from "swagger-ui-express";
 import env from "./config";
 import { handleError, processRequest } from "./middlewares";
 import routes from "./routes";
-import swaggerDocument from "./swagger.json";
 
 const pino = require("pino-http")();
 
@@ -44,9 +42,6 @@ app.use(processRequest);
 
 // TODO: Routes Configuration
 routes(app);
-
-// TODO: Swagger Configuration
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // TODO: Error Handler
 app.use(handleError);
