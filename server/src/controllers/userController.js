@@ -73,3 +73,26 @@ export const activateEmail = async (req, res) => {
   }
   return true;
 };
+
+/**
+ * @param  {} req
+ * @param  {} res
+ * @desc Login User
+ * @access private
+ * @route POST /auth/login
+ * @function {@link login}
+ */
+export const login = async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await checkUser(username);
+    const checkPassword = await bcrypt.compare(password, user.password);
+
+    if (user && checkPassword) return res.json({ message: "Login Successfully!" });
+    res.json({ message: "Invalid credentials" });
+  } catch (error) {
+    res.status(400).json({ message: "Authentication Failed!" });
+  }
+  return true;
+};
