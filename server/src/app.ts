@@ -7,6 +7,7 @@ import helmet from 'helmet';
 import pinoHttp from 'pino-http';
 import env from './config/app.config';
 import { setCorrelationIdHeader } from './presentation/middleware/correlation.middleware';
+import routes from './presentation/routes';
 import ErrorHandler from './utils/errors/errorHandler';
 
 // TODO: Express JS Configuration
@@ -38,6 +39,9 @@ app
 
 // TODO: Correlation Id
 app.use(setCorrelationIdHeader);
+
+// TODO: Routes Configuration
+routes(app);
 
 // TODO: Error Handler
 app.use(ErrorHandler);
