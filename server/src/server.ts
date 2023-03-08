@@ -1,7 +1,7 @@
 import app from './app';
 import env from './config/app.config';
 import { connectDBWithRetry } from './config/database.config';
-import logger from './utils/logger.utils';
+import logger from './utils/logging/logger';
 
 const PORT = env.APP_PORT;
 

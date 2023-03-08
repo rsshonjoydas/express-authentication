@@ -6,6 +6,8 @@ import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import pinoHttp from 'pino-http';
 import env from './config/app.config';
+import { setCorrelationIdHeader } from './presentation/middleware/correlation.middleware';
+import ErrorHandler from './utils/errors/errorHandler';
 
 // TODO: Express JS Configuration
 const app: Application = express();
@@ -33,5 +35,11 @@ app
   .use(helmet())
   .use(pinoHttp())
   .use(limiter);
+
+// TODO: Correlation Id
+app.use(setCorrelationIdHeader);
+
+// TODO: Error Handler
+app.use(ErrorHandler);
 
 export default app;

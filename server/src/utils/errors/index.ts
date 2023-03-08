@@ -2,7 +2,7 @@ interface ErrorCode {
   getCode(): number;
 }
 
-class GeneralError extends Error implements ErrorCode {
+export class GeneralError extends Error implements ErrorCode {
   constructor({ message }: { message: string }) {
     super(message);
   }
@@ -12,7 +12,7 @@ class GeneralError extends Error implements ErrorCode {
   }
 }
 
-class BadRequest extends GeneralError {
+export class BadRequest extends GeneralError {
   constructor(message: string) {
     super({ message });
     this.name = 'Bad Request';
@@ -23,7 +23,7 @@ class BadRequest extends GeneralError {
   }
 }
 
-class NotFound extends GeneralError {
+export class NotFound extends GeneralError {
   constructor(message: string) {
     super({ message });
     this.name = 'Not Found';
@@ -33,5 +33,3 @@ class NotFound extends GeneralError {
     return 404;
   }
 }
-
-export default { GeneralError, BadRequest, NotFound };

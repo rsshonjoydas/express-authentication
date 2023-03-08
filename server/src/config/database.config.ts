@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import logger from '../utils/logger.utils';
+import logger from '../utils/logging/logger';
 import env from './app.config';
 
 type IDatabaseOptions = {
