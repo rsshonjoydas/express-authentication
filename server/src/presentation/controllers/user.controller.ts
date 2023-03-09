@@ -74,3 +74,40 @@ export const activateEmail = async (req: Request, res: Response) => {
   }
   return true;
 };
+
+/**
+ * @param  {} req
+ * @param  {} res
+ * @desc Login User
+ * @access private
+ * @route POST /users/login
+ * @function {@link login}
+ */
+export const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await checkUser(email);
+    if (!user) {
+      return res.json({ message: 'Invalid credentials' });
+    }
+
+    const checkPassword = await bcrypt.compare(password, user.password);
+    if (!checkPassword) {
+      return res.json({ message: 'Invalid credentials' });
+    }
+
+    const refreshToken = await JWTToken.refreshToken({ id: user._id });
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      path: '/users/refresh_token',
+      maxAge: 7 * 24 * 60 * 60 * 1000, //* 7 days
+    });
+
+    res.json({ message: 'Login Successfully!' });
+  } catch (error) {
+    res.status(400).json({ message: 'Authentication Failed!' });
+  }
+
+  return true;
+};
