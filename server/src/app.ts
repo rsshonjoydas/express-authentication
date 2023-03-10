@@ -1,5 +1,6 @@
 import bodyParser from 'body-parser';
 import compression from 'compression';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { Application } from 'express';
 import rateLimit from 'express-rate-limit';
@@ -33,6 +34,7 @@ app
   .use(bodyParser.urlencoded({ extended: false }))
   .use(compression())
   .use(cors(corsOptions))
+  .use(cookieParser())
   .use(helmet())
   .use(pinoHttp())
   .use(limiter);
