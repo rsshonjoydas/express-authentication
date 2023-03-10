@@ -111,3 +111,28 @@ export const login = async (req: Request, res: Response) => {
 
   return true;
 };
+
+/**
+ * @param req
+ * @param res
+ * @access private
+ * @route
+ * @function {@link accessToken}
+ */
+export const getAccessToken = (req: Request, res: Response) => {
+  try {
+    const { refreshToken } = req.cookies;
+    if (!refreshToken) return res.status(400).json({ message: 'Session expired!' });
+
+    jwt.verify(refreshToken, env.JWT_REFRESH_TOKEN, (err: any, user: any) => {
+      if (err) return res.status(400).json({ message: 'Session expired!' });
+
+      const accessToken = JWTToken.accessToken({ id: user.id });
+      return res.json({ accessToken });
+    });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+
+  return true;
+};
