@@ -7,7 +7,7 @@ const { MAIL_SEND_CLIENT_ID, MAIL_SEND_CLIENT_SECRET, MAIL_REFRESH_TOKEN, EMAIL_
 const OAUTH_PLAYGROUND = 'https://developers.google.com/oauthplayground';
 const MAIL_SUBJECT = 'RS Code';
 
-const registerEmail = async (email: string, url: string, txt: string): Promise<string> => {
+const sendEmail = async (email: string, url: string, txt: string): Promise<string> => {
   const oauth2Client: Auth.OAuth2Client = new google.auth.OAuth2(
     MAIL_SEND_CLIENT_ID,
     MAIL_SEND_CLIENT_SECRET,
@@ -52,4 +52,4 @@ const registerEmail = async (email: string, url: string, txt: string): Promise<s
   }
 };
 
-export default registerEmail;
+export default sendEmail;

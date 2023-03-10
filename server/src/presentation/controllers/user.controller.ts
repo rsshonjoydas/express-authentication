@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import env from '../../config/app.config';
-import registerEmail from '../../config/registerEmail.config';
+import sendEmail from '../../config/registerEmail.config';
 import User from '../../domain/models/user.model';
 import { checkUser } from '../../domain/services/user.service';
 import JWTToken from '../../utils/token/JWTToken';
@@ -34,7 +34,7 @@ export const register = async (req: Request, res: Response) => {
     const activationToken = JWTToken.activationToken(newUser);
 
     const url = `${env.CLIENT_APP_URL}/user/activate/${activationToken}`;
-    registerEmail(email, url, 'Verify your email address');
+    sendEmail(email, url, 'Verify your email address');
 
     res.json({ message: 'Verify your email address!' });
   } catch (error) {
@@ -116,7 +116,7 @@ export const login = async (req: Request, res: Response) => {
  * @param req
  * @param res
  * @access private
- * @route
+ * @route POST /users/refresh_token
  * @function {@link accessToken}
  */
 export const getAccessToken = (req: Request, res: Response) => {
@@ -130,6 +130,31 @@ export const getAccessToken = (req: Request, res: Response) => {
       const accessToken = JWTToken.accessToken({ id: user.id });
       return res.json({ accessToken });
     });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+
+  return true;
+};
+
+/**
+ * @param req
+ * @param res
+ * @access private
+ * @route POST /users/forgot
+ * @function {@link forgotPassword}
+ */
+export const forgotPassword = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    const user = await checkUser(email);
+    if (!user) return res.status(400).json({ message: 'This email does not exist!' });
+
+    const accessToken = await JWTToken.accessToken({ id: user._id });
+    const url = `${env.CLIENT_APP_URL}/users/${accessToken}`;
+
+    sendEmail(email, url, 'Reset your password!');
+    res.json({ message: 'Reset the password, please check your email.' });
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
   }
