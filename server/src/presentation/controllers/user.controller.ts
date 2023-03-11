@@ -288,3 +288,29 @@ export const updateUserInfo = async (req: Request, res: Response) => {
 
   return true;
 };
+
+/**
+ * @param req
+ * @param res
+ * @access private
+ * @route POST /users/update_role/:id
+ * @function {@link updateUserRole}
+ */
+export const updateUserRole = async (req: Request, res: Response) => {
+  try {
+    const { role } = req.body;
+
+    await User.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        role,
+      }
+    );
+
+    res.json({ message: 'Updated successfully!' });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+
+  return true;
+};
