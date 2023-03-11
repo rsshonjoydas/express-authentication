@@ -196,3 +196,26 @@ export const resetPassword = async (req: Request, res: Response): Promise<boolea
 
   return true;
 };
+
+/**
+ * @param req
+ * @param res
+ * @access private
+ * @route POST /users/info
+ * @function {@link getUserInfo}
+ */
+export const getUserInfo = async (req: Request, res: Response) => {
+  try {
+    // ? Check if req.user is defined before using it in the query
+    if (!req.user) {
+      return res.status(401).json({ message: 'Invalid Authentication' });
+    }
+    const user = await User.findById(req.user.id).select('-password');
+
+    res.json(user);
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+
+  return true;
+};
