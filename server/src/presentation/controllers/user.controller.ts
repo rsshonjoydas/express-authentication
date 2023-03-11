@@ -202,6 +202,22 @@ export const resetPassword = async (req: Request, res: Response): Promise<boolea
  * @param req
  * @param res
  * @access private
+ * @route POST /users/logout
+ * @function {@link logout}
+ */
+export const logout = async (req: Request, res: Response) => {
+  try {
+    res.clearCookie('refreshToken', { path: '/users/refresh_token' });
+    return res.json({ message: 'Logged out successfully!' });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+/**
+ * @param req
+ * @param res
+ * @access private
  * @route POST /users/info
  * @function {@link getUserInfo}
  */
