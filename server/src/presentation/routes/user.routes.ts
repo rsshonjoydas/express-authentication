@@ -3,11 +3,13 @@ import {
   activateEmail,
   forgotPassword,
   getAccessToken,
+  getAllUserInfo,
   getUserInfo,
   login,
   register,
   resetPassword,
 } from '../controllers/user.controller';
+import authAdmin from '../middleware/admin.middleware';
 
 import auth from '../middleware/auth.middleware';
 
@@ -23,6 +25,7 @@ router
   .post('/refresh_token', getAccessToken)
   .post('/forgot', forgotPassword)
   .post('/reset', auth, resetPassword)
-  .get('/info', auth, getUserInfo);
+  .get('/info', auth, getUserInfo)
+  .get('/all_info', auth, authAdmin, getAllUserInfo);
 
 export default router;

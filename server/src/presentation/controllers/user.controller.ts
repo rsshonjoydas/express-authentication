@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { Error } from 'mongoose';
 import env from '../../config/app.config';
 import sendEmail from '../../config/registerEmail.config';
 import User from '../../domain/models/user.model';
@@ -213,6 +214,25 @@ export const getUserInfo = async (req: Request, res: Response) => {
     const user = await User.findById(req.user.id).select('-password');
 
     res.json(user);
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+
+  return true;
+};
+
+/**
+ * @param req
+ * @param res
+ * @access private
+ * @route POST /users/all_info
+ * @function {@link getUserInfo}
+ */
+export const getAllUserInfo = async (req: Request, res: Response) => {
+  try {
+    const users = await User.find().select('-password');
+
+    res.json(users);
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
   }

@@ -7,6 +7,7 @@ export interface UserInterface extends Document {
   email: string;
   password: string;
   avatar?: string;
+  role: number;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -39,6 +40,10 @@ const userSchema: Schema<UserInterface> = new mongoose.Schema<UserInterface>(
       type: String,
       default:
         'https://res.cloudinary.com/dmgbtukr2/image/upload/v1639842564/icons/profile_vnnjco.png',
+    },
+    role: {
+      type: Number,
+      default: 0, // ? 0 = user, 1 = admin
     },
     createdAt: {
       type: String,
