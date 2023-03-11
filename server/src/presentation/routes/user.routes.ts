@@ -5,7 +5,10 @@ import {
   getAccessToken,
   login,
   register,
+  resetPassword,
 } from '../controllers/user.controller';
+import auth from '../middleware/auth.middleware';
+
 import { handleValidation } from '../middleware/validation.middleware';
 import userValidation from '../validation/user.validation';
 
@@ -16,6 +19,7 @@ router
   .post('/activate', activateEmail)
   .post('/login', login)
   .post('/refresh_token', getAccessToken)
-  .post('/forgot', forgotPassword);
+  .post('/forgot', forgotPassword)
+  .post('/reset', auth, resetPassword);
 
 export default router;

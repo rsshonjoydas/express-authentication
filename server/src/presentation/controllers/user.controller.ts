@@ -161,3 +161,38 @@ export const forgotPassword = async (req: Request, res: Response) => {
 
   return true;
 };
+
+/**
+ * @param req
+ * @param res
+ * @access private
+ * @route POST /users/reset
+ * @function {@link resetPassword}
+ */
+export const resetPassword = async (req: Request, res: Response): Promise<boolean | Response> => {
+  try {
+    const { password } = req.body;
+
+    // ? Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(password, salt);
+
+    // Check if req.user is defined before using it in the query
+    if (!req.user) {
+      return res.status(401).json({ message: 'Invalid Authentication' });
+    }
+
+    await User.findOneAndUpdate(
+      { _id: req.user.id },
+      {
+        password: hashPassword,
+      }
+    );
+
+    res.json({ message: 'Password updated!' });
+  } catch (error: unknown) {
+    return res.status(500).json({ message: (error as Error).message });
+  }
+
+  return true;
+};
