@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { Error } from 'mongoose';
 import env from '../../config/app.config';
-import sendEmail from '../../config/registerEmail.config';
+import sendEmail from '../../config/sendEmail.config';
 import User from '../../domain/models/user.model';
 import { checkUser } from '../../domain/services/user.service';
 import JWTToken from '../../utils/token/JWTToken';
@@ -52,7 +52,6 @@ export const register = async (req: Request, res: Response) => {
  * @access private
  * @function {@link activateEmail}
  */
-
 export const activateEmail = async (req: Request, res: Response) => {
   try {
     const { activationToken } = req.body;
