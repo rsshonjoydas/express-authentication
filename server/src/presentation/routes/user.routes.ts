@@ -9,6 +9,7 @@ import {
   logout,
   register,
   resetPassword,
+  updateUserInfo,
 } from '../controllers/user.controller';
 
 import authAdmin from '../middleware/admin.middleware';
@@ -29,6 +30,7 @@ router
   .post('/reset', auth, resetPassword)
   .get('/logout', logout)
   .get('/info', auth, getUserInfo)
-  .get('/all_info', auth, authAdmin, getAllUserInfo);
+  .get('/all_info', auth, authAdmin, getAllUserInfo)
+  .patch('/update', auth, updateUserInfo);
 
 export default router;

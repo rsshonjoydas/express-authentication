@@ -255,3 +255,36 @@ export const getAllUserInfo = async (req: Request, res: Response) => {
 
   return true;
 };
+
+/**
+ * @param req
+ * @param res
+ * @access private
+ * @route POST /users/update
+ * @function {@link updateUserInfo}
+ */
+export const updateUserInfo = async (req: Request, res: Response) => {
+  try {
+    const { firstName, lastName, avatar } = req.body;
+
+    // ? Check if req.user is defined before using it in the query
+    if (!req.user) {
+      return res.status(401).json({ message: 'Invalid Authentication' });
+    }
+
+    await User.findOneAndUpdate(
+      { _id: req.user.id },
+      {
+        firstName,
+        lastName,
+        avatar,
+      }
+    );
+
+    res.json({ message: 'Updated successfully!' });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+
+  return true;
+};
