@@ -1,6 +1,7 @@
 import express from 'express';
 import {
   activateEmail,
+  deleteUser,
   forgotPassword,
   getAccessToken,
   getAllUserInfo,
@@ -33,6 +34,7 @@ router
   .get('/info', auth, getUserInfo)
   .get('/all_info', auth, authAdmin, getAllUserInfo)
   .patch('/update', auth, updateUserInfo)
-  .patch('/update_role/:id', auth, authAdmin, updateUserRole);
+  .patch('/update_role/:id', auth, authAdmin, updateUserRole)
+  .delete('/delete/:id', auth, authAdmin, deleteUser);
 
 export default router;

@@ -314,3 +314,22 @@ export const updateUserRole = async (req: Request, res: Response) => {
 
   return true;
 };
+
+/**
+ * @param req
+ * @param res
+ * @access private
+ * @route POST /users/delete/:id
+ * @function {@link deleteUser}
+ */
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+
+    res.json({ message: 'User Deleted!' });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+
+  return true;
+};
