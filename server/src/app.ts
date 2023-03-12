@@ -3,6 +3,7 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { Application } from 'express';
+import fileUpload from 'express-fileupload';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import pinoHttp from 'pino-http';
@@ -38,6 +39,11 @@ app
   .use(helmet())
   .use(pinoHttp())
   .use(limiter);
+app.use(
+  fileUpload({
+    useTempFiles: true,
+  })
+);
 
 // TODO: Correlation Id
 app.use(setCorrelationIdHeader);
