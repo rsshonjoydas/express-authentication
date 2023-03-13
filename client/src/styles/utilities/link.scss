@@ -1,0 +1,7 @@
+.link {
+  @apply text-gray-500 dark:text-gray-300 hover:text-primary dark:hover:text-primary-50 cursor-pointer transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-100;
+
+  &-underline {
+    @apply hover:underline underline-offset-4;
+  }
+}
