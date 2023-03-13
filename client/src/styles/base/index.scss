@@ -28,3 +28,55 @@ html::-webkit-scrollbar-track:hover {
   background: theme('colors.secondary.DEFAULT');
   color: #fff;
 }
+
+button {
+  width: auto;
+  border: none;
+  outline: none;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 1.25px;
+  cursor: pointer;
+  font-family: theme('fontFamily.montserrat');
+  transition-duration: 0.5s;
+}
+
+button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+label {
+  @apply block;
+
+  &.label-required {
+    @apply after:content-['*'] after:ml-0.5 after:text-red-500;
+  }
+}
+
+[type='text'],
+[type='email'],
+[type='password'] {
+  @apply m-1 mb-3 px-3 py-2 border-gray-600/30 bg-clip-padding transition ease-in-out border shadow-sm placeholder-slate-400 focus:outline-none focus:border-secondary focus:ring-secondary block w-full rounded-md sm:text-sm focus:ring-1;
+}
+[type='url'],
+[type='number'],
+[type='date'],
+[type='datetime-local'],
+[type='month'],
+[type='search'],
+[type='tel'],
+[type='time'],
+[type='week'],
+[multiple],
+textarea,
+select {
+  @apply block w-full px-3 py-1.5 text-base font-normal bg-clip-padding border border-solid  rounded transition ease-in-out m-0  focus:outline-none;
+}
+[type='checkbox'] {
+  @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-full focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600;
+}
+[type='radio'] {
+  @apply border-light rounded text-secondary focus:ring-secondary;
+}
