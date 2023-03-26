@@ -1,3 +1,6 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-expressions */
+
 'use client';
 
 import SocialAuth from '@/components/SocialAuth';
@@ -6,6 +9,8 @@ import FormikControl from '@/Formik/FormikControl';
 import { loginSchema } from '@/Formik/formikSchema';
 import PasswordInput from '@/Formik/PasswordInput';
 import TextError from '@/Formik/TextError';
+import { login } from '@/redux/features/users/userSlice';
+import { useAppDispatch } from '@/redux/hooks';
 import { ILogin } from '@/types/auth';
 import { ErrorMessage, Form, Formik } from 'formik';
 import Link from 'next/link';
@@ -14,6 +19,8 @@ import { useState } from 'react';
 const Login = () => {
   const [remember, setRemember] = useState(false);
 
+  const dispatch = useAppDispatch();
+
   const InitialValues: ILogin = {
     email: '',
     password: '',
@@ -21,8 +28,8 @@ const Login = () => {
 
   const handleSubmit = async (values: ILogin, { setStatus, resetForm }: any) => {
     const { email, password } = values;
-    console.log('🚀 ~ file: page.tsx:17 ~ handleSubmit ~ email, password:', email, password);
 
+    await dispatch(login({ email, password }));
     try {
       resetForm({});
       setStatus({ success: true });
