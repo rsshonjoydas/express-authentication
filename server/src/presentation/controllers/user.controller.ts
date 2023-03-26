@@ -84,17 +84,16 @@ export const activateEmail = async (req: Request, res: Response) => {
  * @function {@link login}
  */
 export const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
-
   try {
+    const { email, password } = req.body;
     const user = await checkUser(email);
     if (!user) {
-      return res.json({ message: 'Invalid credentials' });
+      return res.status(400).json({ message: 'Invalid credentials' });
     }
 
     const checkPassword = await bcrypt.compare(password, user.password);
     if (!checkPassword) {
-      return res.json({ message: 'Invalid credentials' });
+      return res.status(400).json({ message: 'Invalid credentials' });
     }
 
     const refreshToken = await JWTToken.refreshToken({ id: user._id });
@@ -105,7 +104,7 @@ export const login = async (req: Request, res: Response) => {
     });
 
     res.json({ message: 'Login Successfully!' });
-  } catch (error) {
+  } catch (err) {
     res.status(400).json({ message: 'Authentication Failed!' });
   }
 
