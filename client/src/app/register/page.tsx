@@ -6,27 +6,27 @@ import FormikControl from '@/Formik/FormikControl';
 import { registerSchema } from '@/Formik/formikSchema';
 import PasswordInput from '@/Formik/PasswordInput';
 import TextError from '@/Formik/TextError';
+import { register } from '@/redux/features/users/userSlice';
+import { useAppDispatch } from '@/redux/hooks';
 import { IRegister } from '@/types/auth';
 import { ErrorMessage, Form, Formik } from 'formik';
 import Link from 'next/link';
 
-const Register = () => {
-  const InitialValues: IRegister = {
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    termsAndConditions: false,
-  };
+const InitialValues: IRegister = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+  termsAndConditions: false,
+};
 
+const Register = () => {
+  const dispatch = useAppDispatch();
   const handleSubmit = async (values: IRegister, { setStatus, resetForm }: any) => {
-    const { name, email, password } = values;
-    console.log(
-      '🚀 ~ file: page.tsx:19 ~ handleSubmit ~ name, email, password:',
-      name,
-      email,
-      password
-    );
+    const { firstName, lastName, email, password } = values;
+
+    await dispatch(register({ firstName, lastName, email, password }));
 
     try {
       resetForm({});
@@ -51,16 +51,28 @@ const Register = () => {
               <div className='h-2 bg-secondary rounded-t-md' />
               <div className='px-8 py-6'>
                 {/* // ? Username & Password Field */}
-                <FormikControl
-                  control='input'
-                  label='Name'
-                  placeholder='Name'
-                  className='label-required'
-                  type='text'
-                  name='name'
-                  value={values.name}
-                  onChange={handleChange}
-                />
+                <div className='flex justify-center gap-4'>
+                  <FormikControl
+                    control='input'
+                    label='First Name'
+                    placeholder='First Name'
+                    className='label-required'
+                    type='text'
+                    name='firstName'
+                    value={values.firstName}
+                    onChange={handleChange}
+                  />
+                  <FormikControl
+                    control='input'
+                    label='Last Name'
+                    placeholder='Last Name'
+                    className='label-required'
+                    type='text'
+                    name='lastName'
+                    value={values.lastName}
+                    onChange={handleChange}
+                  />
+                </div>
                 <FormikControl
                   control='input'
                   label='Username or Email'

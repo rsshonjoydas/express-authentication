@@ -3,12 +3,17 @@
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { ILogin } from '@/types/auth';
+import { ILogin, IRegister } from '@/types/auth';
 import authAction from './userAction';
 
 export const login = createAsyncThunk(
   'users/login',
   async (user: ILogin) => await authAction.login(user)
+);
+
+export const register = createAsyncThunk(
+  'users/register',
+  async (user: IRegister) => await authAction.register(user)
 );
 
 const initialState = {
